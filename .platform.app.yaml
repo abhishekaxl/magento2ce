@@ -114,6 +114,13 @@ hooks:
   build: |
     set -e
     mkdir -p .versioned_backup/etc && cp app/etc/* .versioned_backup/etc/
+    bin/composer require caravelx/module-graphql-config
+    bin/magento module:enable Caravel_GraphQlConfig
+    bin/magento setup:upgrade
+    bin/magento setup:di:compile
+    bin/magento setup:static-content:deploy -f
+    bin/magento sampledata:deploy
+    bin/magento setup:upgrade
 
   # The deploy hook is run after the app container has been started, but before it has started accepting requests.
   # More information: https://docs.platform.sh/create-apps/hooks/hooks-comparison.html#deploy-hook
